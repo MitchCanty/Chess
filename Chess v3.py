@@ -266,15 +266,16 @@ def Turn(User):
     global TargetUnit
     
     SelectedPiece = None
-    TargetPiece = None
+    UserPiece = None
     TargetEndPoint = None
+    TargetUnit = None
     
     while SelectedPiece == None:
 
-        while TargetPiece == None:
-            TargetPiece = input("Choose a coordinate of the piece you'd like to move.") 
+        while UserPiece == None:
+            UserPiece = input("Choose a coordinate of the piece you'd like to move.") 
             try:
-                SelectX, SelectY = list(TargetPiece)
+                SelectX, SelectY = list(UserPiece)
                 
                 SelectY = int(SelectY)
                 SelectX = LetterToCoordDict[SelectX]
@@ -283,7 +284,7 @@ def Turn(User):
                 
             except:
                 print("Invalid input.")
-                TargetPiece = None
+                UserPiece = None
     
         
         if SelectedPiece.Player == User:
@@ -291,33 +292,34 @@ def Turn(User):
         else:
             print("That's not your piece.")
             SelectedPiece = None
-            TargetPiece = None
+            UserPiece = None
         
 
-         
-    while TargetEndPoint == None: 
-        try:
-            TargetEndPoint = input("Choose the coordinate where you'd like to move the piece.")  
-            TargetX, TargetY = list(TargetEndPoint)
-            
-            TargetY = int(TargetY)
-            TargetX = LetterToCoordDict[TargetX]
-            
-            TargetUnit = Board[TargetX][TargetY]
-            
-            
-            SelectedPiece.Move(SelectX-TargetX, SelectY-TargetY, TargetUnit)
-            print("".join([type(SelectedPiece).__name__, " from ", TargetPiece, " to ", TargetEndPoint, "."]))
-            if TargetUnit == ' ':
-                SelectedPiece.XPosition = TargetX
-                SelectedPiece.YPosition = TargetY
-            else:
-                Pieces.remove(TargetUnit)
-                SelectedPiece.XPosition = TargetX
-                SelectedPiece.YPosition = TargetY
-        except ValueError:
-            print("That unit can't move like that.")    
-            TargetPiece = None
+    while TargetUnit == None:
+        while TargetEndPoint == None: 
+            try:
+                TargetEndPoint = input("Choose the coordinate where you'd like to move the piece.")  
+                TargetX, TargetY = list(TargetEndPoint)
+                
+                TargetY = int(TargetY)
+                TargetX = LetterToCoordDict[TargetX]
+                
+                TargetUnit = Board[TargetX][TargetY]
+                
+                
+                SelectedPiece.Move(SelectX-TargetX, SelectY-TargetY, TargetUnit)
+                print("".join([type(SelectedPiece).__name__, " from ", UserPiece, " to ", TargetEndPoint, "."]))
+                if TargetUnit == ' ':
+                    SelectedPiece.XPosition = TargetX
+                    SelectedPiece.YPosition = TargetY
+                else:
+                    Pieces.remove(TargetUnit)
+                    SelectedPiece.XPosition = TargetX
+                    SelectedPiece.YPosition = TargetY
+            except ValueError:
+                print("That unit can't move like that.")    
+                TargetEndPoint = None
+                TargetUnit = None
 
 
 
